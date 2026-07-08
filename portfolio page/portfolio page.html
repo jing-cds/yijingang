@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="noindex, nofollow" name="robots"/>
+<title>creating transformative experience withaccessible circular design — private review</title>
+<style>
+  :root{
+    --ink:#111111;
+    --paper:#ffffff;
+    --line:#dcdcdc;
+    --line-soft:#ececec;
+    --muted:#8a8a8a;
+    --hover:#f6f6f4;
+    --stamp:#b5423b;
+    --cell:#e9e9e9;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:Corbel, sans-serif;
+    font-size:15px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  [contenteditable]{outline:none;border-bottom:1px solid transparent;transition:border-color .15s ease;}
+  [contenteditable]:hover{border-bottom-color:var(--line);}
+  [contenteditable]:focus{border-bottom-color:var(--ink);}
+  [contenteditable]:empty:before{content:attr(data-placeholder);color:#c7c7c7;}
+
+  /* ---------- builder-only chrome (stripped on export) ---------- */
+  .builder-toolbar{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+    background:var(--paper);border-bottom:1px solid var(--line);
+    padding:12px 40px;
+  }
+  .btn{
+    font-size:12px;letter-spacing:.03em;
+    background:var(--ink);color:var(--paper);border:1px solid var(--ink);
+    padding:8px 14px;border-radius:2px;cursor:pointer;
+  }
+  .btn:hover{opacity:.85;}
+  .btn.ghost{background:transparent;color:var(--ink);}
+  .toolbar-note{font-size:11.5px;color:var(--muted);margin-left:auto;}
+  body{padding-top:0;}
+
+  .sec-remove{
+    position:absolute;top:18px;right:18px;
+    font-size:11px;color:var(--muted);cursor:pointer;
+    border:1px solid var(--line);border-radius:2px;padding:4px 9px;
+    background:var(--paper);z-index:5;
+  }
+  .sec-remove:hover{color:var(--stamp);border-color:var(--stamp);}
+
+  /* ---------- progress rail ---------- */
+  .rail{
+    position:fixed;right:26px;top:50%;transform:translateY(-50%);
+    z-index:60;display:flex;flex-direction:column;align-items:center;gap:0;
+  }
+  .rail-dot-wrap{
+    display:flex;flex-direction:column;align-items:center;
+    position:relative;
+  }
+  .rail-dot{
+    width:7px;height:7px;border-radius:50%;
+    border:1px solid var(--muted);background:transparent;
+    cursor:pointer;transition:background .2s,border-color .2s,transform .2s;
+    flex-shrink:0;
+  }
+  .rail-dot.active{background:var(--ink);border-color:var(--ink);transform:scale(1.3);}
+  .rail-line{width:1px;height:22px;border-left:1px dashed var(--line);}
+  .rail-label{
+    position:absolute;right:18px;top:50%;transform:translateY(-50%);
+    font-size:11px;color:var(--ink);white-space:nowrap;
+    background:var(--paper);padding:3px 8px;border:1px solid var(--line);border-radius:2px;
+    opacity:0;pointer-events:none;transition:opacity .15s ease;
+  }
+  .rail-dot-wrap:hover .rail-label{opacity:1;}
+  @media (max-width:860px){.rail{display:none;}}
+
+  /* ---------- hero ---------- */
+  .hero{
+    min-height:88vh;
+    display:flex;flex-direction:column;justify-content:center;
+    padding:40px 96px;
+    border-bottom:1px dashed var(--line);
+  }
+  .hero-title-wrap{position:relative;max-width:none;}
+  .hero-title{
+    position:relative;z-index:1;
+    font-size:44px;font-weight:700;letter-spacing:-.015em;line-height:1.18;
+    max-width:none;width:100%;
+  }
+  .hero-sub{font-size:17px;color:var(--muted);margin-top:22px;}
+  .hero-edu{font-size:13px;color:var(--muted);margin-top:8px;}
+  .hero-scrollcue{font-size:11px;color:var(--muted);letter-spacing:.08em;margin-top:56px;}
+  @media (max-width:860px){
+    .hero{padding:32px 24px;min-height:70vh;}
+    .hero-title{font-size:28px;}
+  }
+
+  /* ---------- case study section ---------- */
+  .case-section{
+    position:relative;
+    display:grid;grid-template-columns:1fr 2fr;
+    border-bottom:1px dashed var(--line);
+    min-height:100vh;
+  }
+  .cs-left{
+    position:sticky;top:52px;align-self:start;
+    height:calc(100vh - 52px);
+    display:flex;flex-direction:column;justify-content:center;
+    padding:40px 32px 40px 44px;overflow-y:auto;
+  }
+  .cs-hero-img{
+    width:240px;height:170px;border-radius:2px;margin-bottom:22px;
+    border:1px solid var(--line-soft);resize:both;overflow:hidden;background:#fafafa;
+    min-width:100px;min-height:80px;display:flex;align-items:center;justify-content:center;
+    cursor:pointer;position:relative;
+  }
+  .cs-hero-img img{display:block;width:100%;height:100%;object-fit:cover;}
+  .cs-hero-img.empty::before{
+    content:"+ hero image";font-size:12px;color:var(--muted);
+  }
+  .cs-hero-img input{display:none;}
+
+  .cs-client{font-size:15px;margin-bottom:10px;}
+  .cs-title{font-size:27px;font-weight:600;letter-spacing:-.01em;line-height:1.15;margin-bottom:2px;}
+  .cs-role,.cs-skills{font-size:16px;line-height:1.35;}
+  .cs-collab{font-size:16px;line-height:1.35;color:#3a3a3a;}
+  .cs-section-block{margin-top:26px;}
+  .cs-section-label{font-size:13px;margin-bottom:10px;display:block;}
+  .cs-subhead{font-size:15px;font-weight:700;margin-bottom:5px;}
+  .cs-body{font-size:13.5px;line-height:1.6;max-width:38ch;margin-bottom:18px;}
+  .cs-body:last-child{margin-bottom:0;}
+
+  .timeline-year{margin-bottom:14px;}
+  .timeline-year-label{font-size:12px;color:var(--muted);margin-bottom:5px;display:inline-block;min-width:38px;}
+  .month-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;}
+  .month-cell{height:18px;background:var(--cell);border-radius:2px;cursor:pointer;}
+  .month-cell.on{background:var(--ink);}
+  .month-labels{display:grid;grid-template-columns:repeat(12,1fr);gap:3px;margin-top:4px;}
+  .month-labels span{font-size:8.5px;color:var(--muted);text-align:center;}
+  .add-year{font-size:11.5px;color:var(--muted);cursor:pointer;display:inline-block;margin-top:4px;border-bottom:1px dashed var(--line);}
+  .add-year:hover{color:var(--ink);}
+
+  .cs-right{
+    overflow-y:auto;overflow-x:hidden;height:100vh;
+    padding:52px 48px;
+    display:flex;flex-wrap:wrap;align-content:flex-start;gap:14px;
+    border-left:1px solid var(--line-soft);
+    scrollbar-width:thin;
+  }
+  .gallery-controls{
+    width:100%;flex-basis:100%;
+    display:flex;gap:16px;margin-bottom:4px;
+  }
+  .gallery-control-link{
+    font-size:12px;color:var(--muted);cursor:pointer;
+    border-bottom:1px dashed var(--line);
+  }
+  .gallery-control-link:hover{color:var(--ink);}
+  .gallery-item{
+    position:relative;border:1px solid var(--line-soft);border-radius:2px;
+    overflow:hidden;background:#fafafa;cursor:grab;
+    width:230px;height:170px;resize:both;min-width:100px;min-height:80px;
+  }
+  .gallery-item.dragging{opacity:.35;}
+  .gallery-item img,.gallery-item video{display:block;width:100%;height:100%;object-fit:cover;}
+  .gallery-item .remove{
+    position:absolute;top:8px;right:8px;width:24px;height:24px;border-radius:50%;
+    background:rgba(17,17,17,.75);color:#fff;font-size:14px;line-height:24px;text-align:center;
+    cursor:pointer;opacity:0;transition:opacity .12s ease;z-index:2;
+  }
+  .gallery-item:hover .remove{opacity:1;}
+  .gallery-caption{
+    position:absolute;left:0;right:0;bottom:0;
+    font-size:11.5px;color:#fff;padding:16px 8px 6px;
+    background:linear-gradient(transparent, rgba(0,0,0,.55));
+  }
+  .gallery-caption:empty:before{color:rgba(255,255,255,.75);}
+  .gallery-stage{
+    position:relative;cursor:grab;
+    width:100%;flex-basis:100%;
+    margin:18px 0 4px;padding-top:16px;
+    border-top:1px dashed var(--line);
+  }
+  .gallery-stage.dragging{opacity:.35;}
+  .gallery-stage-label{
+    font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink);font-weight:600;
+  }
+  .gallery-stage .remove{
+    position:absolute;top:12px;right:0;width:20px;height:20px;border-radius:50%;
+    background:rgba(17,17,17,.75);color:#fff;font-size:12px;line-height:20px;text-align:center;
+    cursor:pointer;opacity:0;transition:opacity .12s ease;
+  }
+  .gallery-stage:hover .remove{opacity:1;}
+  .gallery-drop{
+    width:100%;flex-basis:100%;
+    border:1px dashed var(--line);border-radius:3px;min-height:110px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12.5px;color:var(--muted);cursor:pointer;
+    transition:background .15s ease,border-color .15s ease;
+  }
+  .gallery-drop.drag-over{background:var(--hover);border-color:var(--ink);}
+  .cs-right input[type=file]{display:none;}
+  @media (max-width:860px){
+    .case-section{grid-template-columns:1fr;}
+    .cs-left{position:static;height:auto;padding:32px 24px;}
+    .cs-right{height:auto;border-left:none;border-top:1px solid var(--line-soft);padding:24px;}
+  }
+
+  /* ---------- side quests ---------- */
+  .sidequests-section{padding:70px 56px 90px;}
+  .sq-label{font-size:22px;font-weight:600;margin-bottom:6px;}
+  .sq-sub{font-size:13.5px;color:var(--muted);margin-bottom:28px;max-width:52ch;}
+  .sq-row{display:flex;gap:20px;overflow-x:auto;padding-bottom:12px;}
+  .sq-card{
+    flex:0 0 auto;position:relative;
+  }
+  .sq-img{
+    width:220px;height:165px;border:1px solid var(--line-soft);border-radius:2px;
+    background:#fafafa;resize:both;overflow:hidden;min-width:100px;min-height:80px;
+    display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;
+  }
+  .sq-img.empty::before{content:"+ image";font-size:12px;color:var(--muted);}
+  .sq-img img{width:100%;height:100%;object-fit:cover;}
+  .sq-img input{display:none;}
+  .sq-title{font-size:14.5px;font-weight:600;margin-top:10px;}
+  .sq-oneliner{font-size:13px;color:var(--muted);margin-top:2px;}
+  .sq-remove{
+    position:absolute;top:6px;right:6px;width:20px;height:20px;border-radius:50%;
+    background:rgba(17,17,17,.75);color:#fff;font-size:12px;line-height:20px;text-align:center;
+    cursor:pointer;opacity:0;transition:opacity .12s ease;z-index:2;
+  }
+  .sq-card:hover .sq-remove{opacity:1;}
+  .add-sq{
+    flex:0 0 140px;border:1px dashed var(--line);border-radius:2px;
+    height:165px;display:flex;align-items:center;justify-content:center;
+    font-size:12.5px;color:var(--muted);cursor:pointer;align-self:flex-start;
+  }
+  .add-sq:hover{color:var(--ink);border-color:var(--ink);}
+
+  /* ---------- closing ---------- */
+  .closing-section{
+    padding:70px 56px 90px;
+    border-top:1px dashed var(--line);
+  }
+  .closing-label{font-size:13px;color:var(--muted);margin-bottom:18px;}
+  .closing-row{display:flex;gap:48px;flex-wrap:wrap;align-items:flex-start;}
+  .closing-field{font-size:15px;margin-bottom:6px;}
+  .closing-field[data-placeholder]:empty:before{color:#c7c7c7;}
+  .resume-slot{
+    border:1px dashed var(--line);border-radius:2px;padding:10px 16px;
+    font-size:12.5px;color:var(--muted);cursor:pointer;display:inline-flex;align-items:center;gap:8px;
+    transition:background .15s ease,border-color .15s ease;
+  }
+  .resume-slot.drag-over{background:var(--hover);border-color:var(--ink);}
+  .resume-slot.has-file{color:var(--ink);border-style:solid;}
+  .resume-slot input{display:none;}
+  .resume-download{
+    font-size:13px;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--ink);
+    display:none;
+  }
+  .resume-download.show{display:inline-block;}
+
+  .footer-note{
+    padding:18px 56px 60px;font-size:12px;color:var(--muted);
+    border-top:1px solid var(--line-soft);
+  }
+  .footer-note code{background:var(--line-soft);padding:1px 5px;border-radius:2px;}
+</style>
+</head>
+<body>
+<!-- HERO -->
+<div class="hero" id="hero">
+<div class="hero-title-wrap">
+<div class="hero-title" data-placeholder="Creating Transformative Experiences with Accessible Circular Design" id="heroTitle">creating transformative experience with<br/>accessible circular design</div>
+</div>
+<div class="hero-sub" data-placeholder="Your name — industrial / product designer"><span style="color: rgb(19, 30, 41); font-family: Corbel, sans-serif; font-size: 13px;">industrial design led by participatory design, system thinking, making</span><br/>Astra Ang<br/></div>
+<div class="hero-edu" data-placeholder="Education — leave blank to hide"></div>
+<div class="hero-scrollcue">scroll ↓</div>
+</div>
+<!-- CASE STUDIES -->
+<div id="sections">
+<section class="case-section" id="section-1">
+<div class="cs-left">
+<div class="cs-hero-img"><img src="images/img-1.png"/></div>
+<div class="cs-client" data-placeholder="Client">Another Studio</div>
+<div class="cs-title" data-placeholder="Project title">Unstitch</div>
+<div class="cs-role" data-placeholder="Key role"><span style="color: rgb(19, 30, 41); font-family: Corbel, sans-serif; font-size: 13px;"><b>Lead Designer</b></span><br style="color: rgb(19, 30, 41); font-family: Corbel, sans-serif; font-size: 13px;"/></div>
+<div class="cs-skills" data-placeholder="Key skills"><span style="color: rgb(19, 30, 41); font-family: Corbel, sans-serif; font-size: 13px;">exhibition design<br/></span><span style="color: rgb(19, 30, 41); font-family: Corbel, sans-serif; font-size: 13px;">digital fabrication <br/></span><span style="color: rgb(19, 30, 41); font-family: Corbel, sans-serif; font-size: 13px;">metalworking</span><br style="color: rgb(19, 30, 41); font-family: Corbel, sans-serif; font-size: 13px;"/><span style="color: rgb(19, 30, 41); font-family: Corbel, sans-serif; font-size: 13px;">workshop facilitation<br/>user research<br/></span></div>
+<div class="cs-collab" data-placeholder="Collaborators"></div>
+<div class="cs-section-block">
+<div class="cs-subhead">Challenge</div>
+<div class="cs-body" data-placeholder="what challenge this project addressed."><span style="color: rgb(19, 30, 41); font-family: Corbel, sans-serif; font-size: 13px;">Textile recovery is often inaccessible to the public, attributed to little understanding of material value and entry for participation in the circular economy.</span></div>
+<div class="cs-subhead">Solution</div>
+<div class="cs-body" data-placeholder="how you approached and resolved it."><font color="#131e29" face="Corbel, sans-serif"><span style="font-size: 13px;">An interlocking textile system created with scalable upcycling production, and workshop methodology that enables the community to create useful, modular objects without sewing while learning about circular design.</span></font></div>
+</div>
+<div class="cs-section-block">
+<span class="cs-section-label">Timeline</span>
+<div class="timeline-years">
+<div class="timeline-year">
+<span class="timeline-year-label">2025</span><div class="month-grid">
+<div class="month-cell"></div><div class="month-cell"></div><div class="month-cell"></div><div class="month-cell"></div><div class="month-cell"></div><div class="month-cell"></div><div class="month-cell on"></div><div class="month-cell on"></div><div class="month-cell on"></div><div class="month-cell on"></div><div class="month-cell on"></div><div class="month-cell"></div></div><div class="month-labels"><span>J</span><span>F</span><span>M</span><span>A</span><span>M</span><span>J</span><span>J</span><span>A</span><span>S</span><span>O</span><span>N</span><span>D</span></div></div>
+</div>
+</div>
+</div>
+<div class="cs-right">
+<div class="gallery-stage" draggable="true"><div class="gallery-stage-label" data-placeholder="stage — e.g. research, ideation, prototyping, final">Tile making &amp; testing</div><div class="remove">×</div></div><div class="gallery-item" draggable="true" style="height: 138px; width: 300px;"><img src="images/img-2.jpg"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed"></div></div><div class="gallery-item" draggable="true" style="height: 138px; width: 252px;"><img src="images/img-3.jpg"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">joint strength testing</div></div><div class="gallery-item" draggable="true" style="height: 138px; width: 247px;"><img src="images/img-4.jpg"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed"></div></div><div class="gallery-stage" draggable="true"><div class="gallery-stage-label" data-placeholder="stage — e.g. research, ideation, prototyping, final">Workshop &amp; feedback</div><div class="remove">×</div></div><div class="gallery-item" draggable="true" style="width: 301px; height: 166px;"><img src="images/img-5.jpg"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">workshop</div></div><div class="gallery-item" draggable="true" style="width: 261px; height: 168px;"><img src="images/img-6.jpg"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed"></div></div><div class="gallery-item" draggable="true" style="height: 168px; width: 238px;"><img src="images/img-7.png"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed"></div></div><div class="gallery-stage" draggable="true"><div class="gallery-stage-label" data-placeholder="stage — e.g. research, ideation, prototyping, final">die fabrication for scalable upcycling</div><div class="remove">×</div></div><div class="gallery-item" draggable="true" style="height: 168px; width: 196px;"><img src="images/img-8.jpg"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">metalworking prototypes</div></div><div class="gallery-item" draggable="true" style="width: 217px; height: 168px;"><img src="images/img-9.jpg"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">grinding custom blades</div></div><div class="gallery-item" draggable="true" style="width: 224px; height: 168px;"><img src="images/img-10.jpg"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">metal laser cut blades</div></div><div class="gallery-item" draggable="true" style="width: 223px; height: 167px;"><img src="images/img-11.jpg"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">die holder</div></div><div class="gallery-stage" draggable="true"><div class="gallery-stage-label" data-placeholder="stage — e.g. research, ideation, prototyping, final">exhibition installation</div><div class="remove">×</div></div><div class="gallery-item" draggable="true" style="width: 386px; height: 267px;"><img src="images/img-12.jpg"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">unstitch artefacts and custom die</div></div><div class="gallery-item" draggable="true" style="width: 328px; height: 267px;"><img src="images/img-13.jpg"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">exhibition set up</div></div><div class="gallery-item" draggable="true" style="width: 297px; height: 266px;"><img src="images/img-14.jpg"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">presenting to public</div></div>
+</div>
+</section></div>
+
+<section class="case-section" id="section-2">
+<div class="cs-left">
+<div class="cs-hero-img" style="height: 115px; width: 265px;"><img src="images/img-15.jpg"/></div>
+<div class="cs-client" data-placeholder="Client"><div class="drow" style="margin: 0px; padding: 0px; display: flex; flex-wrap: wrap; color: rgb(19, 30, 41); font-family: Corbel, sans-serif;"><div class="cell" style="margin: 0px; padding: 5px 0px 0px; flex: 1 1 0%; overflow-wrap: break-word; font-weight: lighter; font-size: 13px;">Monash Performing Arts Centre (MPAC)<br/>The Waiting Room Arts Company<br/>Melbourne Design Week '25</div><div><br/></div></div><div class="drow" style="margin: 0px; padding: 0px; display: flex; flex-wrap: wrap; color: rgb(19, 30, 41); font-family: Corbel, sans-serif;"></div></div>
+<div class="cs-title" data-placeholder="Project title">Reimagine Agriculture</div>
+<div class="cs-role" data-placeholder="Key role"><span style="color: rgb(19, 30, 41); font-family: Corbel, sans-serif; font-size: 13px;"><b>Project coordinator + Industrial designer</b></span><br style="color: rgb(19, 30, 41); font-family: Corbel, sans-serif; font-size: 13px;"/></div>
+<div class="cs-skills" data-placeholder="Key skills"><font color="#131e29" face="Corbel, sans-serif"><span style="font-size: 13px;">storytelling<br/>prop &amp; artefact making<br/>fabrication<br/>spatial design &amp; installation<br/>concept development</span></font></div>
+<div class="cs-collab" data-placeholder="Collaborators"></div>
+<div class="cs-section-block">
+<div class="cs-subhead">Challenge</div>
+<div class="cs-body" data-placeholder="what challenge this project addressed."><span style="color: rgb(19, 30, 41); font-family: Corbel, sans-serif; font-size: 13px;">Communicate a "Futures in 2050" food system in an emotionally engaging and accessible to diverse audience.</span></div>
+<div class="cs-subhead">Solution</div>
+<div class="cs-body" data-placeholder="how you approached and resolved it."><span style="color: rgb(19, 30, 41); font-family: Corbel, sans-serif; font-size: 13px;">An immersive experience reimagining urban agriculture through interactive props and character profiles, prompting visitors to experience and speculate a regenerative food production in 2050.</span></div>
+</div>
+<div class="cs-section-block">
+<span class="cs-section-label">Timeline</span>
+<div class="timeline-years"><div class="timeline-year"><span class="timeline-year-label">2025</span><div class="month-grid"><div class="month-cell"></div><div class="month-cell"></div><div class="month-cell on"></div><div class="month-cell on"></div><div class="month-cell on"></div><div class="month-cell on"></div><div class="month-cell"></div><div class="month-cell"></div><div class="month-cell"></div><div class="month-cell"></div><div class="month-cell"></div><div class="month-cell"></div></div><div class="month-labels"><span>J</span><span>F</span><span>M</span><span>A</span><span>M</span><span>J</span><span>J</span><span>A</span><span>S</span><span>O</span><span>N</span><span>D</span></div></div></div>
+</div>
+</div>
+<div class="cs-right">
+<div class="gallery-stage" draggable="true"><div class="gallery-stage-label" data-placeholder="stage — e.g. research, ideation, prototyping, final">Prototype &amp; User Studies</div><div class="remove">×</div></div><div class="gallery-item" draggable="true" style="width: 209px; height: 223px;"><img src="images/img-16.png"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed"></div></div><div class="gallery-item" draggable="true" style="width: 746px; height: 222px;"><img src="images/img-17.png"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed"></div></div><div class="gallery-stage" draggable="true"><div class="gallery-stage-label" data-placeholder="stage — e.g. research, ideation, prototyping, final">Prop making &amp; installation</div><div class="remove">×</div></div><div class="gallery-item" draggable="true"><img src="images/img-18.png"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">miniature model work station</div></div><div class="gallery-item" draggable="true"><img src="images/img-19.png"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">transporting with artefact</div></div><div class="gallery-item" draggable="true"><img src="images/img-20.png"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">installation</div></div><div class="gallery-item" draggable="true" style="width: 293px; height: 170px;"><img src="images/img-21.png"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">personalised hortishell &amp; character profiles</div></div><div class="gallery-stage" draggable="true"><div class="gallery-stage-label" data-placeholder="stage — e.g. research, ideation, prototyping, final">exhibition &amp; artefacts</div><div class="remove">×</div></div><div class="gallery-item" draggable="true"><img src="images/img-22.png"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">1:20 miniature planter</div></div><div class="gallery-item" draggable="true" style="width: 324px; height: 168px;"><img src="images/img-23.png"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">1:50 theatre set</div></div><div class="gallery-item" draggable="true"><img src="images/img-24.png"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">presenting the planter box</div></div><div class="gallery-item" draggable="true" style="width: 242px; height: 170px;"><img src="images/img-25.jpg"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed"></div></div>
+</div>
+</section><section class="case-section" id="section-3">
+<div class="cs-left">
+<div class="cs-hero-img" style="height: 162px; width: 261px;"><img src="images/img-26.png"/></div>
+<div class="cs-client" data-placeholder="Client"><span style="color: rgb(19, 30, 41); font-family: Corbel, sans-serif; font-size: 13px;">Ned Culic, Simone Hill </span></div>
+<div class="cs-title" data-placeholder="Project title">Yao</div>
+<div class="cs-role" data-placeholder="Key role"><font color="#131e29" face="Corbel, sans-serif"><span style="font-size: 13px;"><b>Cultural design</b></span></font></div>
+<div class="cs-skills" data-placeholder="Key skills"><font color="#131e29" face="Corbel, sans-serif"><span style="font-size: 13px;">photography<br/>model making<br/>material exploration</span></font></div>
+<div class="cs-collab" data-placeholder="Collaborators"></div>
+<div class="cs-section-block">
+<div class="cs-subhead">Challenge</div>
+<div class="cs-body" data-placeholder="what challenge this project addressed."><span style="color: rgb(19, 30, 41); font-family: Corbel, sans-serif; font-size: 13px;">How can atmosphere be represented beyond physical buildings?</span></div>
+<div class="cs-subhead">Solution</div>
+<div class="cs-body" data-placeholder="how you approached and resolved it."><font color="#131e29" face="Corbel, sans-serif"><span style="font-size: 13px;">Created a series of photographic compositions and miniature models to explore how space evoke emotion and memory beyond architecture with a Mystifying Pharmacy.</span></font></div>
+</div>
+<div class="cs-section-block">
+<span class="cs-section-label">Timeline</span>
+<div class="timeline-years"><div class="timeline-year"><span class="timeline-year-label">2023</span><div class="month-grid"><div class="month-cell"></div><div class="month-cell"></div><div class="month-cell"></div><div class="month-cell on"></div><div class="month-cell on"></div><div class="month-cell"></div><div class="month-cell"></div><div class="month-cell"></div><div class="month-cell"></div><div class="month-cell"></div><div class="month-cell"></div><div class="month-cell"></div></div><div class="month-labels"><span>J</span><span>F</span><span>M</span><span>A</span><span>M</span><span>J</span><span>J</span><span>A</span><span>S</span><span>O</span><span>N</span><span>D</span></div></div></div>
+</div>
+</div>
+<div class="cs-right">
+<div class="gallery-stage" draggable="true"><div class="gallery-stage-label" data-placeholder="stage — e.g. research, ideation, prototyping, final">Ideation &amp; Material exploration</div><div class="remove">×</div></div><div class="gallery-item" draggable="true" style="width: 474px; height: 276px;"><img src="images/img-27.png"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">site visit</div></div><div class="gallery-item" draggable="true" style="width: 159px; height: 276px;"><img src="images/img-28.png"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">layering light studies</div></div><div class="gallery-item" draggable="true" style="width: 134px; height: 277px;"><img src="images/img-29.png"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">scale</div></div><div class="gallery-item" draggable="true" style="width: 149px; height: 276px;"><img src="images/img-30.png"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">miniature studies picoworm</div></div><div class="gallery-stage" draggable="true"><div class="gallery-stage-label" data-placeholder="stage — e.g. research, ideation, prototyping, final">Prototype</div><div class="remove">×</div></div><div class="gallery-item" draggable="true" style="height: 726px; width: 652px;"><img src="images/img-31.png"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">rapid prototype 1: circular form</div></div><div class="gallery-item" draggable="true" style="height: 654px; width: 653px;"><img src="images/img-32.png"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed">prototype 2: miniature</div></div><div class="gallery-item" draggable="true" style="height: 570px; width: 654px;"><img src="images/img-33.png"/><div class="remove">×</div><div class="gallery-caption" data-placeholder="caption — what this shows, what changed"></div></div>
+</div>
+</section>
+<!-- SIDE QUESTS -->
+<div class="sidequests-section" id="sidequests">
+<div class="sq-label" data-placeholder="Side quests">Side quests</div>
+<div class="sq-sub" data-placeholder="smaller experiments, personal projects, things made for fun rather than a brief.">smaller experiments, personal projects, things made for fun rather than a brief.</div>
+<div class="sq-row" id="sqRow">
+<div class="sq-card">
+<div class="sq-img" style="height: 418px; width: 237px;"><img src="images/img-34.jpg"/></div>
+<div class="sq-title" data-placeholder="Project name">pixel art with unstitch</div>
+<div class="sq-oneliner" data-placeholder="one line about it"></div>
+</div><div class="sq-card">
+<div class="sq-img" style="width: 245px; height: 416px;"><img src="images/img-35.png"/></div>
+<div class="sq-title" data-placeholder="Project name">sketch</div>
+<div class="sq-oneliner" data-placeholder="one line about it"></div>
+</div><div class="sq-card">
+<div class="sq-img" style="height: 414px; width: 264px;"><img src="images/img-36.jpg"/></div>
+<div class="sq-title" data-placeholder="Project name">mokake</div>
+<div class="sq-oneliner" data-placeholder="one line about it">sculpted steamed dessert</div>
+</div><div class="sq-card">
+<div class="sq-img" style="width: 264px; height: 415px;"><img src="images/img-37.png"/></div>
+<div class="sq-title" data-placeholder="Project name">graphic concept</div>
+<div class="sq-oneliner" data-placeholder="one line about it">o-sock: single-use mycelium travel sock</div>
+</div>
+</div>
+</div>
+<!-- CLOSING -->
+<div class="closing-section" id="closing">
+<div class="closing-label">get in touch</div>
+<div class="closing-row">
+<div>
+<div class="closing-field" data-placeholder="email@domain.com">astra.ayj@gmail.com</div>
+<div class="closing-field" data-placeholder="linkedin.com/in/you">https://www.linkedin.com/in/yijingang/</div>
+<div class="closing-field" data-placeholder="location — e.g. available for relocation">melbourne, 3006</div>
+</div>
+<div>
+<a class="resume-download show" download="Astra Ang - Resume.pdf" href="Astra Ang - Resume.pdf" id="resumeDownload">download resume →</a>
+</div>
+</div>
+</div>
+
+
+<script>
+  const rail = document.getElementById('rail');
+  let observer;
+  function setup(){
+    const dots = rail.querySelectorAll('.rail-dot');
+    const targets = [...dots].map(d => document.getElementById(d.dataset.target)).filter(Boolean);
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        const dot = rail.querySelector(`.rail-dot[data-target="${entry.target.id}"]`);
+        if(!dot) return;
+        if(entry.isIntersecting){
+          dots.forEach(d => d.classList.remove('active'));
+          dot.classList.add('active');
+        }
+      });
+    }, {threshold:0.5});
+    targets.forEach(t => observer.observe(t));
+    dots.forEach(d => d.addEventListener('click', () => {
+      const t = document.getElementById(d.dataset.target);
+      if(t) t.scrollIntoView({behavior:'smooth'});
+    }));
+  }
+  setup();
+</script></body>
+</html>
