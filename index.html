@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta property="og:title" content="Jing Official Website" />
+        <meta property="og:title" content="Yi Jing Ang: ventures" />
         <meta property="og:type" content="portfolio" />
         <meta property="og:url" content="https://www.yijingang.com/" />
         <meta property="og:image" content="https://www.yijingang.com/img/aT%20favicon.png" />
@@ -18,9 +18,201 @@
         gtag('config', 'G-8VJKKMW4G4');
         </script>
 
-        <title>Jing Official Website</title>
+        <title>ventures/ Jing</title>
+        <link rel="canonical" href="https://www.yijingang.com/" />
+        <link rel="alternate" hreflang="en" href="https://www.yijingang.com/" />
+        <link rel="alternate" hreflang="zh-CN" href="https://www.yijingang.com/zh/" />
         <link rel="icon" type="image" href="img/aT favicon.png">
         <link rel="stylesheet" href="styles.css">
+
+        <!-- lets the mobile tabs appear only when the script that powers them can run -->
+        <script>document.documentElement.classList.add('js');</script>
+
+        <!-- page-specific additions: everything else comes from styles.css -->
+        <style>
+            /* keeps the 中文 link on the same line as the English menu items */
+            nav .mainMenu li a[lang="zh-CN"] {
+                font-family: Corbel, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            }
+            @media (min-width: 769px) {
+                nav .mainMenu {
+                    align-items: baseline;
+                }
+            }
+
+            /* intro, tabs and contact line up with the 90% wide grid below */
+            .ventures-intro,
+            .ventures-contact {
+                box-sizing: border-box;
+                width: 90%;
+                text-align: left;
+            }
+            .ventures-intro {
+                margin: 30px 0 10px;
+                max-width: 640px;
+                align-self: flex-start;
+                margin-left: 5%;
+            }
+            .ventures-intro h2 {
+                margin-bottom: 14px;
+            }
+            .ventures-intro p {
+                line-height: 1.6;
+            }
+
+            /* tabs reuse the works page filter style; shown on mobile only */
+            .venture-tabs {
+                display: none;
+            }
+
+            /* the rule above each venture follows through from the namecard */
+            .venture {
+                border-top: 2px solid #131E29;
+                padding-top: 20px;
+            }
+            .venture .works-image {
+                cursor: default;
+            }
+            .venture .title {
+                font-size: 18px;
+                margin-bottom: 4px;
+            }
+            .venture .looking {
+                font-size: 14px;
+                opacity: 60%;
+                margin-top: 6px;
+            }
+            /* mokake slideshow: swipe on mobile, dots to jump */
+            /* arrows sit in the dots row, desktop only; phones swipe */
+            /* single-image ventures reserve the dots row so the text lines up across columns */
+            .venture > .works-image { margin-bottom: 24px; }
+            .slideshow .arrow {
+                display: none;
+                background: none;
+                border: none;
+                color: #131E29;
+                font-size: 22px;
+                line-height: 1;
+                width: 28px;
+                height: 24px;
+                padding: 0;
+                cursor: pointer;
+            }
+            .slideshow .arrow[disabled] { opacity: 20%; cursor: default; }
+            @media (min-width: 769px) {
+                .slideshow .arrow { display: block; }
+            }
+            .slideshow .slides {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                scrollbar-width: none;
+            }
+            .slideshow .slides::-webkit-scrollbar { display: none; }
+            .slideshow .slides img {
+                flex: 0 0 100%;
+                scroll-snap-align: center;
+                cursor: default;
+            }
+            .slideshow .dots {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 4px;
+                margin-top: 4px;
+            }
+            .slideshow .dot {
+                width: 24px;
+                height: 24px;
+                background: none;
+                border: none;
+                cursor: pointer;
+                position: relative;
+            }
+            .slideshow .dot::after {
+                content: "";
+                position: absolute;
+                inset: 9px;
+                border-radius: 50%;
+                background: #131E29;
+                opacity: 30%;
+                transition: opacity 0.3s;
+            }
+            .slideshow .dot.is-on::after { opacity: 100%; }
+            .venture .links {
+                display: flex;
+                flex-wrap: wrap;
+                column-gap: 18px;
+            }
+            .venture .visit {
+                display: inline-block;
+                margin-top: 6px;
+                padding: 8px 0;
+                font-size: 14px;
+                color: #B784A7;
+                text-decoration: none;
+            }
+            .venture .visit:hover {
+                text-decoration: underline;
+            }
+            .venture .soon {
+                display: inline-block;
+                margin-top: 6px;
+                padding: 8px 0;
+                font-size: 14px;
+                opacity: 60%;
+            }
+
+            .ventures-contact {
+                margin: 60px 0 20px;
+                padding-top: 24px;
+                border-top: 2px solid #131E29;
+                align-self: center;
+            }
+            .ventures-contact h3 {
+                font-weight: normal;
+                font-size: 18px;
+                margin-bottom: 14px;
+            }
+            .ventures-contact dl {
+                display: grid;
+                grid-template-columns: max-content 1fr;
+                column-gap: 28px;
+                row-gap: 8px;
+                line-height: 1.5;
+            }
+            .ventures-contact dt {
+                opacity: 60%;
+            }
+            .ventures-contact dd span {
+                display: block;
+            }
+            .ventures-contact a {
+                color: #131E29;
+                text-decoration: none;
+            }
+            .ventures-contact a:hover {
+                text-decoration: underline;
+            }
+
+            /* mobile (same breakpoint as styles.css): one venture at a time */
+            @media (max-width: 768px) {
+                .ventures-intro {
+                    margin-top: 10px;
+                }
+                .js .venture-tabs {
+                    display: flex;
+                    width: 90%;
+                    margin: 20px 0 0;
+                }
+                .js .venture:not(.is-active) {
+                    display: none;
+                }
+                .ventures-contact {
+                    margin-top: 40px;
+                }
+            }
+        </style>
     </head>
     <body>
         <!-- navigation bar -->
@@ -28,63 +220,88 @@
             <nav>
                 <div class="logo">
                     <a href="index.html"><img src="img/aT logo.png"></a>
-                </div>                
+                </div>
                 <button class="openMenu">&#9776;</button>
                 <ul id="nav" class="mainMenu">
+                    <li class="active"><a href="index.html">ventures</a></li>
                     <li><a href="works.html">works</a></li>
-                    <li><a href="journal.html">journal</a></li>
+                    <li><a href="writing.html">writing</a></li>
                     <li><a href="about.html">about</a></li>
-                    <!--<li><a href="#">contact</a></li>-->
-                    <!-- <li><a href="#">journal</a></li>-->
+                    <li><a href="zh/index.html" lang="zh-CN" hreflang="zh-CN">中文</a></li>
                     <button class="closeMenu">&times;</button>
                 </ul>
             </nav>
         </header>
 
-        <script>
-            $(function() {
-               $('#nav li a').click(function() {
-                  $('#nav li').removeClass();
-                  $($(this).attr('href')).addClass('active');
-               });
-            });
-         </script>
-
-        <!--
-        <section class="introduction">
-            <p>Introduction<br>
-            This website is.... portfolio, experimentation, some magazine issues, photographs and resource..</p>
+        <section class="ventures-intro">
+            <h2>ventures</h2>
+            <p>Based in Melbourne, my practice spans transformable textiles, desserts and fragrance. Each venture follows the same approach: curiosity, minimal waste and real-life observation, carried through material experiments into things people can use, taste and smell.</p>
         </section>
-        -->
 
-        <section class="grid">
-            <!-- Project Placeholders -->
-            <div class="row wide">
-                <div href="#" class="spacer"></div>
-                <a href="projects/memo_bag.html" class="item"><img src="img/memo_bag/memo_sketch.png"></a>
-                <a href="projects/tex-tiles.html" class="item"><img src="img/tiles/tiles_3.gif"></a>
-                <div href="#" class="spacer"></div>
-            </div>
-            <div class="row wide">                
-                <a href="projects/yao.html" class="item"><img src="img/yao/yap_minihero.jpg"></a>
-                <a href="projects/mycelium.html" class="item"><img src="img/mycelium/mycelium_sketch.png"></a>
-                <a href="projects/reimagining_agriculture.html" class="item"><img src="img/ra/planter_hero.JPG"></a>
-            </div>
-            <div class="row">
-                <a href="projects/round.html" class="item"><img src="img/round/round_hero.jpg"></a>
-                <a href="projects/usb.html" class="item"><img src="img/usb/usb_hero.jpeg"></a>
-                <a href="projects/repertoire.html" class="item"><img src="img/repertoire/repertoire_cover.png"></a>
-                <!--<a href="projects/truncate.html" class="item"><img src="img/truncate/truncate_hero.png"></a>-->
-            </div>
-     
-            <div class="row wide">
-                <div href="#" class="spacer"></div>
-                <!--
-                <a href="projects/truncate.html" class="item"><img src="img/truncate/truncate_hero.png"></a>
-                -->
-                <div href="#" class="spacer"></div>
-            </div class="row">
+        <!-- tabs: mobile only, same look as the filters on the works page -->
+        <section class="filters venture-tabs">
+            <button type="button" class="filter-button active">unstitch x</button>
+            <button type="button" class="filter-button">mokake</button>
+            <button type="button" class="filter-button">ajer haus</button>
+        </section>
 
+        <!-- images: save as img/ventures/<name>.jpg, 3:2 crop works best -->
+        <section class="worksGrid">
+            <div class="project venture is-active">
+                <img class="works-image" src="img/ventures/unstitch-x.gif" alt="unstitch x interlocking textile tiles, animated">
+                <div class="works-details">
+                    <p class="title">unstitch x</p>
+                    <p class="description">modular textile · 模块化纺织品</p>
+                    <p class="looking">looking for: textile offcuts, surplus or deadstock fabric</p>
+                    <p class="links"><a class="visit" href="https://unstitchx.com">unstitchx.com &rarr;</a> <a class="visit" href="https://www.linkedin.com/company/unstitchx/">LinkedIn &rarr;</a></p>
+                </div>
+            </div>
+
+            <div class="project venture">
+                <div class="slideshow" aria-roledescription="carousel">
+                    <div class="slides">
+                        <img class="works-image is-on" src="img/ventures/mokake-1-box.jpg" alt="mokake: black packaging box">
+                        <img class="works-image" src="img/ventures/mokake-2-open.jpg" alt="mokake: open box with the sliced cake">
+                        <img class="works-image" src="img/ventures/mokake-3-slice.jpg" alt="mokake: hojicha and red bean ukishima cake in cross-section">
+                        <img class="works-image" src="img/ventures/mokake-4-cake.jpg" alt="mokake: a decorated competition cake">
+                        <img class="works-image" src="img/ventures/mokake-5-easter.jpg" alt="mokake: an easter basket cake">
+                    </div>
+                    <div class="dots"><button type="button" class="arrow prev" aria-label="previous">&#8249;</button><button type="button" class="dot is-on" aria-label="slide 1"></button><button type="button" class="dot" aria-label="slide 2"></button><button type="button" class="dot" aria-label="slide 3"></button><button type="button" class="dot" aria-label="slide 4"></button><button type="button" class="dot" aria-label="slide 5"></button><button type="button" class="arrow next" aria-label="next">&#8250;</button></div>
+                </div>
+                <div class="works-details">
+                    <p class="title">mokake</p>
+                    <p class="description">dessert · 特色甜点</p>
+                    <p class="looking">looking for: steaming equipment, precision moulds, premium gift packaging</p>
+                    <p class="links"><a class="visit" href="https://www.instagram.com/at_mokake/">Instagram &rarr;</a></p>
+                </div>
+            </div>
+
+            <div class="project venture">
+                <img class="works-image" src="img/ventures/ajer-haus.jpg" alt="seven ajer haus candle scents side by side">
+                <div class="works-details">
+                    <p class="title">ajer haus</p>
+                    <p class="description">fragrance · 香氛产品</p>
+                    <p class="looking">looking for: tin vessel manufacturer, scent packaging label</p>
+                    <p class="links"><a class="visit" href="https://ajerhaus.com">ajerhaus.com &rarr;</a> <a class="visit" href="https://www.instagram.com/ajerhaus/">Instagram &rarr;</a></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="ventures-contact">
+            <h3>get in touch</h3>
+            <dl>
+                <dt>email</dt>
+                <dd><a href="mailto:hello@yijingang.com">hello@yijingang.com</a></dd>
+                <dt>phone</dt>
+                <dd>
+                    <span><a href="tel:+61478169261">+61 478 169 261</a> (AU)</span>
+                    <span><a href="tel:+60162514074">+60 16 251 4074</a> (MY)</span>
+                </dd>
+                <dt>wechat</dt>
+                <dd>yijing_a</dd>
+                <dt>linkedin</dt>
+                <dd><a href="https://www.linkedin.com/in/yijingang/">yijingang</a></dd>
+            </dl>
         </section>
 
         <footer>
@@ -92,5 +309,44 @@
         </footer>
 
         <script src="script.js"></script>
+        <script>
+            // mokake slideshow: dots follow the swipe and jump on click
+            document.querySelectorAll('.slideshow').forEach(function (show) {
+                var track = show.querySelector('.slides');
+                var dots = show.querySelectorAll('.dot');
+                dots.forEach(function (dot, i) {
+                    dot.addEventListener('click', function () {
+                        track.scrollTo({ left: track.clientWidth * i, behavior: 'smooth' });
+                    });
+                });
+                var prev = show.querySelector('.prev');
+                var next = show.querySelector('.next');
+                function go(d) {
+                    var i = Math.round(track.scrollLeft / track.clientWidth) + d;
+                    track.scrollTo({ left: track.clientWidth * i, behavior: 'smooth' });
+                }
+                prev.addEventListener('click', function () { go(-1); });
+                next.addEventListener('click', function () { go(1); });
+                function sync() {
+                    var i = Math.round(track.scrollLeft / track.clientWidth);
+                    dots.forEach(function (d, j) { d.classList.toggle('is-on', i === j); });
+                    prev.disabled = i === 0;
+                    next.disabled = i === dots.length - 1;
+                }
+                track.addEventListener('scroll', sync);
+                sync();
+            });
+            // mobile tabs: show one venture at a time
+            (function () {
+                var tabs = document.querySelectorAll('.venture-tabs .filter-button');
+                var ventures = document.querySelectorAll('.venture');
+                tabs.forEach(function (tab, index) {
+                    tab.addEventListener('click', function () {
+                        tabs.forEach(function (t, i) { t.classList.toggle('active', i === index); });
+                        ventures.forEach(function (v, i) { v.classList.toggle('is-active', i === index); });
+                    });
+                });
+            })();
+        </script>
     </body>
 </html>

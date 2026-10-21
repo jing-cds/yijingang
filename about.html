@@ -21,32 +21,6 @@
         <title>about/ Jing</title>
         <link rel="icon" type="image" href="img/aT favicon.png">
         <link rel="stylesheet" href="styles.css">
-
-        <!-- contact block matches the ventures page -->
-        <style>
-            .ventures-contact {
-                box-sizing: border-box;
-                width: 90%;
-                text-align: left;
-                margin: 60px 0 20px;
-                padding-top: 24px;
-                border-top: 2px solid #131E29;
-                align-self: center;
-            }
-            .ventures-contact h3 { font-weight: normal; font-size: 18px; margin-bottom: 14px; }
-            .ventures-contact dl {
-                display: grid;
-                grid-template-columns: max-content 1fr;
-                column-gap: 28px;
-                row-gap: 8px;
-                line-height: 1.5;
-            }
-            .ventures-contact dt { opacity: 60%; }
-            .ventures-contact dd span { display: block; }
-            .ventures-contact a { color: #131E29; text-decoration: none; }
-            .ventures-contact a:hover { text-decoration: underline; }
-            @media (max-width: 768px) { .ventures-contact { margin-top: 40px; } }
-        </style>
     </head>
     <body>
         <!-- navigation bar -->
@@ -57,8 +31,9 @@
                 </div>
                 <button class="openMenu">&#9776;</button>
                 <ul id="nav" class="mainMenu">
+                    <li><a href="index.html">ventures</a></li>
                     <li><a href="works.html">works</a></li>
-                    <li><a href="journal.html">journal</a></li>
+                    <li><a href="writing.html">writing</a></li>
                     <li class="active"><a href="about.html">about</a></li>
                     <!--<li><a href="#">contact</a></li>-->
                     <!-- <li><a href="#">journal</a></li>-->
@@ -137,21 +112,16 @@
             -->
         </main>
 
-        <section class="ventures-contact">
-            <h3>get in touch</h3>
-            <dl>
-                <dt>email</dt>
-                <dd><a href="mailto:hello@yijingang.com">hello@yijingang.com</a></dd>
-                <dt>phone</dt>
-                <dd>
-                    <span><a href="tel:+61478169261">+61 478 169 261</a> (AU)</span>
-                    <span><a href="tel:+60162514074">+60 16 251 4074</a> (MY)</span>
-                </dd>
-                <dt>wechat</dt>
-                <dd>yijing_a</dd>
-                <dt>linkedin</dt>
-                <dd><a href="https://www.linkedin.com/in/yijingang/">yijingang</a></dd>
-            </dl>
+        <section class="contact-container">
+            <p class="contact">
+                Here are ways to get in touch with me 
+                <br>
+                | email <a href="mailto:yijing.adesign@gmail.com" class="tab" style="color:#131E29;">yijing.adesign@gmail.com</a>
+                <br>
+                | phone <a href="tel:+61478169261" class="tab" style="text-decoration: none; color:#131E29;">+61 478169261</a>
+                <br>
+                | linkedin <a href="https://www.linkedin.com/in/yijingang/" class="tab" style="text-decoration: none; color:#131E29;">yijingang</a>
+            </p>
         </section>
 
         <footer>
