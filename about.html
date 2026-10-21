@@ -24,6 +24,13 @@
 
         <!-- contact block matches the ventures page -->
         <style>
+            /* text starts at the same left edge as the contact divider line */
+            .about-container { box-sizing: border-box; width: 90%; align-self: center; margin: 10px 0; }
+            .about-text { padding-left: 0; }
+            @media (max-width: 768px) {
+                .about-container { width: 90%; padding-top: 0; }
+                .about-text { padding: 20px 0; }
+            }
             .ventures-contact {
                 box-sizing: border-box;
                 width: 90%;
