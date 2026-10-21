@@ -21,6 +21,71 @@
         <title>works/ Jing</title>
         <link rel="icon" type="image" href="img/aT favicon.png">
         <link rel="stylesheet" href="styles.css">
+
+        <!-- works + journal on one page: journal sits on the right on desktop, behind a toggle on mobile -->
+        <style>
+            .pane-toggle { display: none; }
+            .pane-btn {
+                font-family: Corbel, sans-serif;
+                background-color: transparent;
+                color: #131E29;
+                border: none;
+                cursor: pointer;
+                opacity: 30%;
+                font-size: 16px;
+                padding: 8px 0;
+                transition: opacity 0.3s;
+            }
+            .pane-btn.active, .pane-btn:hover { opacity: 100%; }
+            .journal-pane h2 { font-size: 18px; font-weight: normal; margin-bottom: 14px; }
+            .journal-pane .magazine { margin-bottom: 26px; }
+            .journal-pane .magazine a { display: block; color: #131E29; text-decoration: none; }
+            .journal-pane .mag-image { width: 100%; padding-top: 0; aspect-ratio: 1; object-fit: contain; background: #f4f3f1; }
+            .journal-pane .mag-details { padding: 8px 0 0; }
+            .journal-pane .mag-details .description { font-size: 13px; opacity: 60%; text-decoration: none; }
+            .journal-pane .mag-details .title { font-size: 16px; }
+            .journal-pane .note { font-size: 13px; opacity: 60%; line-height: 1.5; }
+
+            @media (min-width: 769px) {
+                .works-layout {
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 40px;
+                    box-sizing: border-box;
+                    width: 92%;
+                    align-self: center;
+                }
+                .works-main { flex: 1; min-width: 0; }
+                .works-main .filters { margin-left: 0; margin-right: 0; width: auto; }
+                .works-main .worksGrid {
+                    width: 100%;
+                    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+                }
+                .journal-pane {
+                    flex: 0 0 240px;
+                    position: sticky;
+                    top: 20px;
+                    max-height: calc(100vh - 40px);
+                    overflow-y: auto;
+                    margin-top: 20px;
+                    padding: 14px 0 0 24px;
+                    border-left: 2px solid #131E29;
+                    scrollbar-width: thin;
+                }
+            }
+            @media (max-width: 768px) {
+                .js .pane-toggle { display: flex; width: 90%; margin: 20px 0 0; gap: 30px; align-self: center; }
+                .works-layout, .works-main, .journal-pane { display: flex; flex-direction: column; align-items: center; }
+                .works-layout { width: 100%; }
+                .journal-pane { width: 90%; margin-top: 20px; padding-top: 14px; border-top: 2px solid #131E29; align-items: stretch; }
+                .journal-pane .mag-image { max-width: 320px; }
+                .js .works-layout[data-pane="works"] .journal-pane,
+                .js .works-layout[data-pane="journal"] .works-main { display: none; }
+            }
+        </style>
+
+        <!-- lets the mobile toggle appear only when the script that powers it can run -->
+        <script>document.documentElement.classList.add('js');</script>
     </head>
     <body>
         <!-- navigation bar -->
@@ -31,8 +96,8 @@
                 </div>                
                 <button class="openMenu">&#9776;</button>
                 <ul id="nav" class="mainMenu">
+                    <li><a href="index.html">ventures</a></li>
                     <li class="active"><a href="works.html">works</a></li>
-                    <li><a href="journal.html">journal</a></li>
                     <li><a href="about.html">about</a></li>
                     <!--<li><a href="#">contact</a></li>-->
                     <!-- <li><a href="#">journal</a></li>-->
@@ -50,6 +115,14 @@
             });
          </script>
 
+        <!-- mobile only: switch between works and journal -->
+        <section class="pane-toggle">
+            <button type="button" class="pane-btn active" data-pane="works">works</button>
+            <button type="button" class="pane-btn" data-pane="journal">journal</button>
+        </section>
+
+        <div class="works-layout" data-pane="works">
+            <div class="works-main">
         <!-- filters -->
         <section class="filters">
             <button class="filter-button active" onclick="filterWorks('all')">works</button>
@@ -218,6 +291,31 @@
             -->
         </section>
       
+            </div>
+        <aside class="journal-pane" id="journal">
+            <h2>journal</h2>
+            <div class="magazine">
+                <a href="journal/reimagining_agriculture.html">
+                    <img src="/img/magazine cover/magazine cover reimagining agriculture.png" class="mag-image" alt="cover of issue 2, reimagining agriculture">
+                    <div class="mag-details">
+                        <p class="description">Issue 2</p>
+                        <p class="title">reimagining agriculture</p>
+                    </div>
+                </a>
+            </div>
+            <div class="magazine">
+                <a href="journal/pharmacy.html">
+                    <img src="/img/magazine cover/magazine cover pharmacy.png" class="mag-image" alt="cover of issue 1, yao">
+                    <div class="mag-details">
+                        <p class="description">Issue 1</p>
+                        <p class="title">yao</p>
+                    </div>
+                </a>
+            </div>
+            <p class="note">more documentation magazines to be published shortly</p>
+        </aside>
+        </div>
+
         <!-- page numbers for works -->
         <!--
         <section>
@@ -234,5 +332,21 @@
         </footer>
 
         <script src="script.js"></script>
+        <script>
+            // mobile: one pane at a time. The toggle buttons don't use filterWorks, so they can't clash with the category filters.
+            (function () {
+                var layout = document.querySelector('.works-layout');
+                var tabs = document.querySelectorAll('.pane-toggle .pane-btn');
+                function show(pane) {
+                    layout.setAttribute('data-pane', pane);
+                    tabs.forEach(function (t) { t.classList.toggle('active', t.getAttribute('data-pane') === pane); });
+                }
+                tabs.forEach(function (t) {
+                    t.addEventListener('click', function () { show(t.getAttribute('data-pane')); });
+                });
+                if (location.hash === '#journal') show('journal');
+            })();
+        </script>
+
     </body>
 </html>
