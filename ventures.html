@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta property="og:title" content="ventures/ Jing" />
+        <meta property="og:type" content="portfolio" />
+        <meta property="og:url" content="https://www.yijingang.com/ventures.html" />
+        <meta property="og:image" content="https://www.yijingang.com/img/aT%20favicon.png" />
+
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-8VJKKMW4G4"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-8VJKKMW4G4');
+        </script>
+
+        <title>ventures/ Jing</title>
+        <link rel="icon" type="image" href="img/aT favicon.png">
+        <link rel="stylesheet" href="styles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Noto+Sans+SC:wght@300;400&display=swap" rel="stylesheet">
+
+        <!-- page-specific styles: placeholder layout, to be redesigned -->
+        <style>
+            .ventures-container {
+                width: 100%;
+                max-width: 1100px;
+                margin-top: 60px;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                column-gap: 42px;
+                row-gap: 56px;
+                font-family: "Jost", Corbel, sans-serif;
+            }
+            .venture {
+                display: block;
+                border-top: 2px solid #131E29;
+                padding-top: 28px;
+                text-decoration: none;
+                color: #131E29;
+            }
+            .venture h2 {
+                font-weight: 400;
+                font-size: 40px;
+                margin-bottom: 28px;
+            }
+            .venture .zh {
+                font-family: "Noto Sans SC", sans-serif;
+                font-weight: 300;
+                font-size: 24px;
+                margin-bottom: 8px;
+            }
+            .venture .en {
+                font-weight: 300;
+                font-size: 18px;
+                opacity: 70%;
+            }
+            a.venture:hover h2 {
+                text-decoration: underline;
+            }
+            @media (max-width: 800px) {
+                .ventures-container {
+                    grid-template-columns: 1fr;
+                    margin-top: 32px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- navigation bar -->
+        <header>
+            <nav>
+                <div class="logo">
+                    <a href="index.html"><img src="img/aT logo.png"></a>
+                </div>
+                <button class="openMenu">&#9776;</button>
+                <ul id="nav" class="mainMenu">
+                    <li><a href="works.html">works</a></li>
+                    <li><a href="journal.html">journal</a></li>
+                    <li><a href="about.html">about</a></li>
+                    <button class="closeMenu">&times;</button>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="ventures-container">
+            <!-- add href links for mokake and ajer haus when their sites are ready:
+                 change <div class="venture"> to <a class="venture" href="..."> -->
+            <a class="venture" href="https://unstitchx.com">
+                <h2>unstitch x</h2>
+                <p class="zh">模块化纺织品</p>
+                <p class="en">modular textile</p>
+            </a>
+            <div class="venture">
+                <h2>mokake</h2>
+                <p class="zh">特色甜点</p>
+                <p class="en">dessert</p>
+            </div>
+            <div class="venture">
+                <h2>ajer haus</h2>
+                <p class="zh">香氛产品</p>
+                <p class="en">fragrance</p>
+            </div>
+        </main>
+
+        <footer>
+            &copy; 2025 - 2026 by Yi Jing Ang
+        </footer>
+
+        <script src="script.js"></script>
+    </body>
+</html>

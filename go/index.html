@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="noindex">
+        <title>Yi Jing Ang</title>
+
+        <!--
+            DYNAMIC QR DESTINATION
+            The business-card QR code points to https://www.yijingang.com/go
+            To change where it leads, edit DESTINATION below and the meta refresh fallback,
+            then commit and push. The printed QR code never needs to change.
+        -->
+        <meta http-equiv="refresh" content="3; url=https://www.yijingang.com/ventures.html">
+
+        <!-- Google tag (gtag.js): records each QR scan as a pageview of /go -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-8VJKKMW4G4"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-8VJKKMW4G4');
+
+        var DESTINATION = "https://www.yijingang.com/ventures.html";
+        // short pause so the scan is recorded before redirecting
+        setTimeout(function () { window.location.replace(DESTINATION); }, 400);
+        </script>
+    </head>
+    <body>
+        <p>Redirecting&hellip; <a href="https://www.yijingang.com/ventures.html">continue</a></p>
+    </body>
+</html>
