@@ -86,6 +86,25 @@
                 margin-top: 6px;
             }
             /* mokake slideshow: swipe on mobile, dots to jump */
+            .slideshow { position: relative; }
+            .slideshow .arrow {
+                position: absolute;
+                top: calc(50% - 22px);
+                transform: translateY(-50%);
+                width: 40px;
+                height: 40px;
+                border: none;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.85);
+                color: #131E29;
+                font-size: 26px;
+                line-height: 1;
+                padding: 0 0 3px;
+                cursor: pointer;
+            }
+            .slideshow .prev { left: 8px; }
+            .slideshow .next { right: 8px; }
+            .slideshow .arrow[disabled] { opacity: 0; pointer-events: none; }
             .slideshow .slides {
                 display: flex;
                 overflow-x: auto;
@@ -242,8 +261,11 @@
                         <img class="works-image" src="../img/ventures/mokake-2-open.jpg" alt="mokake: 打开的盒子与切好的蛋糕">
                         <img class="works-image" src="../img/ventures/mokake-3-slice.jpg" alt="mokake: 焙茶红豆双层蛋糕切面">
                         <img class="works-image" src="../img/ventures/mokake-4-cake.jpg" alt="mokake: 参赛装饰蛋糕">
+                        <img class="works-image" src="../img/ventures/mokake-5-easter.jpg" alt="mokake: 复活节篮子造型蛋糕">
                     </div>
-                    <div class="dots"><button type="button" class="dot is-on" aria-label="幻灯片 1"></button><button type="button" class="dot" aria-label="幻灯片 2"></button><button type="button" class="dot" aria-label="幻灯片 3"></button><button type="button" class="dot" aria-label="幻灯片 4"></button></div>
+                    <button type="button" class="arrow prev" aria-label="上一张">&#8249;</button>
+                    <button type="button" class="arrow next" aria-label="下一张">&#8250;</button>
+                    <div class="dots"><button type="button" class="dot is-on" aria-label="幻灯片 1"></button><button type="button" class="dot" aria-label="幻灯片 2"></button><button type="button" class="dot" aria-label="幻灯片 3"></button><button type="button" class="dot" aria-label="幻灯片 4"></button><button type="button" class="dot" aria-label="幻灯片 5"></button></div>
                 </div>
                 <div class="works-details">
                     <p class="title">mokake</p>
@@ -298,10 +320,22 @@
                         track.scrollTo({ left: track.clientWidth * i, behavior: 'smooth' });
                     });
                 });
-                track.addEventListener('scroll', function () {
+                var prev = show.querySelector('.prev');
+                var next = show.querySelector('.next');
+                function go(d) {
+                    var i = Math.round(track.scrollLeft / track.clientWidth) + d;
+                    track.scrollTo({ left: track.clientWidth * i, behavior: 'smooth' });
+                }
+                prev.addEventListener('click', function () { go(-1); });
+                next.addEventListener('click', function () { go(1); });
+                function sync() {
                     var i = Math.round(track.scrollLeft / track.clientWidth);
                     dots.forEach(function (d, j) { d.classList.toggle('is-on', i === j); });
-                });
+                    prev.disabled = i === 0;
+                    next.disabled = i === dots.length - 1;
+                }
+                track.addEventListener('scroll', sync);
+                sync();
             });
             // mobile tabs: show one venture at a time
             (function () {
