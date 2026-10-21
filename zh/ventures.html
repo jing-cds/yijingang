@@ -24,18 +24,32 @@
         <link rel="icon" type="image" href="../img/aT favicon.png">
         <link rel="stylesheet" href="../styles.css">
 
-        <!-- page-specific styles. System Chinese fonts only: Google Fonts is unreliable in mainland China -->
+        <!-- marks the page as script-enabled so the mobile tabs only appear when they can work -->
+        <script>document.documentElement.classList.add('js');</script>
+
+        <!-- page-specific styles. System fonts only: Google Fonts is unreliable in mainland China.
+             Latin letters come first in the stack so they use a Latin font, Chinese falls through to PingFang / YaHei. -->
         <style>
+            .ventures-page,
+            nav .mainMenu li a,
+            footer {
+                font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+            }
+            /* same font and line height on every menu item so 中文 and EN sit on one line */
+            nav .mainMenu li a {
+                line-height: 1.5;
+            }
+
             .ventures-page {
                 box-sizing: border-box;
                 width: 100%;
                 max-width: 1100px;
                 padding: 0 40px;
                 margin: 0 auto;
-                font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
                 color: #131E29;
             }
 
+            /* studio introduction */
             .studio-intro {
                 margin: 64px 0 72px;
                 max-width: 640px;
@@ -49,13 +63,19 @@
                 font-weight: 300;
                 font-size: 18px;
                 line-height: 1.9;
+                text-align: left;
             }
 
+            /* mobile tabs: hidden unless the mobile layout is active */
+            .venture-tabs {
+                display: none;
+            }
+
+            /* venture cards */
             .ventures-grid {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
                 column-gap: 42px;
-                row-gap: 56px;
             }
             .venture {
                 border-top: 2px solid #131E29;
@@ -77,15 +97,17 @@
             .venture .zh {
                 font-weight: 400;
                 font-size: 22px;
+                line-height: 1.5;
                 margin-bottom: 8px;
             }
             .venture .en {
                 font-weight: 300;
                 font-size: 16px;
-                opacity: 70%;
+                color: #5A6570;
             }
             .venture .visit {
                 display: inline-block;
+                justify-self: start;
                 margin-top: 24px;
                 padding: 10px 0;
                 font-size: 16px;
@@ -100,22 +122,52 @@
             .venture .soon {
                 display: inline-block;
                 margin-top: 24px;
+                padding: 10px 0;
                 font-size: 16px;
-                opacity: 55%;
+                color: #5A6570;
             }
 
+            /* desktop: line up names, descriptors and links across the three cards */
+            @media (min-width: 901px) {
+                @supports (grid-template-rows: subgrid) {
+                    .venture {
+                        display: grid;
+                        grid-template-rows: subgrid;
+                        grid-row: span 5;
+                        row-gap: 0;
+                    }
+                }
+            }
+
+            /* contact */
             .ventures-contact {
                 margin: 96px 0 40px;
                 border-top: 1px solid #131E29;
                 padding-top: 28px;
                 font-weight: 300;
                 font-size: 17px;
-                line-height: 2;
+                line-height: 1.8;
             }
             .ventures-contact h3 {
                 font-weight: 400;
                 font-size: 19px;
-                margin-bottom: 12px;
+                margin-bottom: 16px;
+            }
+            .ventures-contact dl {
+                display: grid;
+                grid-template-columns: max-content 1fr;
+                column-gap: 32px;
+                row-gap: 8px;
+                margin: 0;
+            }
+            .ventures-contact dt {
+                color: #5A6570;
+            }
+            .ventures-contact dd {
+                margin: 0;
+            }
+            .ventures-contact dd span {
+                display: block;
             }
             .ventures-contact a {
                 color: #131E29;
@@ -127,11 +179,44 @@
                 border-color: #B784A7;
             }
 
+            /* mobile: one venture at a time, switched by tabs */
             @media (max-width: 900px) {
-                .ventures-grid { grid-template-columns: 1fr; row-gap: 48px; }
                 .ventures-page { padding: 0 24px; }
-                .studio-intro { margin: 40px 0 48px; }
+                .studio-intro { margin: 40px 0 40px; }
                 .studio-intro h1 { font-size: 30px; }
+                .ventures-grid { grid-template-columns: 1fr; }
+
+                .js .venture-tabs {
+                    display: flex;
+                    margin-bottom: 28px;
+                    border-bottom: 1px solid #131E29;
+                }
+                .venture-tabs button {
+                    flex: 1;
+                    min-height: 48px;
+                    padding: 8px 4px;
+                    background: none;
+                    border: none;
+                    border-bottom: 3px solid transparent;
+                    font: inherit;
+                    font-size: 15px;
+                    color: #5A6570;
+                    cursor: pointer;
+                }
+                .venture-tabs button[aria-pressed="true"] {
+                    color: #131E29;
+                    font-weight: 400;
+                    border-bottom-color: #B784A7;
+                }
+                .js .venture:not(.is-active) {
+                    display: none;
+                }
+                .js .venture {
+                    border-top: none;
+                    padding-top: 0;
+                }
+                .ventures-contact { margin: 64px 0 32px; }
+                .ventures-contact dl { column-gap: 24px; }
             }
         </style>
     </head>
@@ -154,18 +239,22 @@
         </header>
 
         <main class="ventures-page">
-            <!-- DRAFT copy: edit freely, you write the Chinese -->
+            <!-- DRAFT copy: edit freely, you write the Chinese.
+                 Keep each paragraph on a single line: a line break inside Chinese text shows up as a gap. -->
             <section class="studio-intro">
                 <h1>品牌</h1>
-                <p>
-                    我常驻墨尔本，做模块化纺织品、特色甜点和香氛产品。
-                    三个品牌有同一种做法：保持好奇，尽量减少浪费，从真实生活的观察出发，
-                    经过反复的材料实验，做成人们可以使用、品尝和闻到的东西。
-                </p>
+                <p>我常驻墨尔本，做模块化纺织品、特色甜点和香氛产品。三个品牌有同一种做法：保持好奇，尽量减少浪费，从真实生活的观察出发，经过反复的材料实验，做成人们可以使用、品尝和闻到的东西。</p>
             </section>
 
+            <!-- tabs show on mobile only (see styles above) -->
+            <div class="venture-tabs" role="group" aria-label="选择品牌">
+                <button type="button" aria-pressed="true">unstitch x</button>
+                <button type="button" aria-pressed="false">mokake</button>
+                <button type="button" aria-pressed="false">ajer haus</button>
+            </div>
+
             <section class="ventures-grid">
-                <article class="venture">
+                <article class="venture is-active">
                     <img class="venture-image" src="../img/ventures/unstitch-x.jpg" alt="unstitch x">
                     <h2>unstitch x</h2>
                     <p class="zh">模块化纺织品</p>
@@ -194,13 +283,19 @@
 
             <section class="ventures-contact">
                 <h3>联系我</h3>
-                | 微信 [添加你的微信号 / 二维码]
-                <br>
-                | 邮箱 <a href="mailto:yijing.adesign@gmail.com">yijing.adesign@gmail.com</a>
-                <br>
-                | 电话 <a href="tel:+61478169261">+61 478169261</a>
-                <br>
-                | 领英 <a href="https://www.linkedin.com/in/yijingang/">yijingang</a>
+                <dl>
+                    <dt>微信</dt>
+                    <dd>yijing_a</dd>
+                    <dt>邮箱</dt>
+                    <dd><a href="mailto:hello@yijingang.com">hello@yijingang.com</a></dd>
+                    <dt>电话</dt>
+                    <dd>
+                        <span><a href="tel:+61478169261">+61 478 169 261</a>（澳大利亚）</span>
+                        <span><a href="tel:+60162514074">+60 16 251 4074</a>（马来西亚）</span>
+                    </dd>
+                    <dt>领英</dt>
+                    <dd><a href="https://www.linkedin.com/in/yijingang/">yijingang</a></dd>
+                </dl>
             </section>
         </main>
 
@@ -209,5 +304,24 @@
         </footer>
 
         <script src="../script.js"></script>
+        <script>
+            // mobile tabs: show one venture at a time
+            (function () {
+                var tabs = document.querySelectorAll('.venture-tabs button');
+                var ventures = document.querySelectorAll('.venture');
+                function show(index) {
+                    tabs.forEach(function (tab, i) {
+                        tab.setAttribute('aria-pressed', i === index ? 'true' : 'false');
+                    });
+                    ventures.forEach(function (venture, i) {
+                        venture.classList.toggle('is-active', i === index);
+                    });
+                }
+                tabs.forEach(function (tab, i) {
+                    tab.addEventListener('click', function () { show(i); });
+                });
+                show(0);
+            })();
+        </script>
     </body>
 </html>

@@ -27,6 +27,9 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400&family=Noto+Sans+SC:wght@300;400&display=swap" rel="stylesheet">
 
+        <!-- marks the page as script-enabled so the mobile tabs only appear when they can work -->
+        <script>document.documentElement.classList.add('js');</script>
+
         <!-- page-specific styles -->
         <style>
             .ventures-page {
@@ -55,12 +58,16 @@
                 line-height: 1.6;
             }
 
+            /* mobile tabs: hidden unless the mobile layout is active */
+            .venture-tabs {
+                display: none;
+            }
+
             /* venture cards */
             .ventures-grid {
                 display: grid;
                 grid-template-columns: repeat(3, 1fr);
                 column-gap: 42px;
-                row-gap: 56px;
             }
             .venture {
                 border-top: 2px solid #131E29;
@@ -80,7 +87,7 @@
                 margin-bottom: 20px;
             }
             .venture .zh {
-                font-family: "Noto Sans SC", sans-serif;
+                font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
                 font-weight: 300;
                 font-size: 22px;
                 margin-bottom: 8px;
@@ -88,16 +95,17 @@
             .venture .en {
                 font-weight: 300;
                 font-size: 17px;
-                opacity: 70%;
+                color: #5A6570;
             }
             .venture .visit {
                 display: inline-block;
+                justify-self: start;
                 margin-top: 24px;
+                padding: 10px 0;
                 font-size: 15px;
                 color: #131E29;
                 text-decoration: none;
                 border-bottom: 1px solid #131E29;
-                padding-bottom: 2px;
             }
             .venture .visit:hover {
                 color: #B784A7;
@@ -106,8 +114,21 @@
             .venture .soon {
                 display: inline-block;
                 margin-top: 24px;
+                padding: 10px 0;
                 font-size: 15px;
-                opacity: 45%;
+                color: #5A6570;
+            }
+
+            /* desktop: line up names, descriptors and links across the three cards */
+            @media (min-width: 901px) {
+                @supports (grid-template-rows: subgrid) {
+                    .venture {
+                        display: grid;
+                        grid-template-rows: subgrid;
+                        grid-row: span 5;
+                        row-gap: 0;
+                    }
+                }
             }
 
             /* contact */
@@ -117,12 +138,28 @@
                 padding-top: 28px;
                 font-weight: 300;
                 font-size: 16px;
-                line-height: 1.9;
+                line-height: 1.7;
             }
             .ventures-contact h3 {
                 font-weight: 400;
                 font-size: 18px;
-                margin-bottom: 12px;
+                margin-bottom: 16px;
+            }
+            .ventures-contact dl {
+                display: grid;
+                grid-template-columns: max-content 1fr;
+                column-gap: 32px;
+                row-gap: 8px;
+                margin: 0;
+            }
+            .ventures-contact dt {
+                color: #5A6570;
+            }
+            .ventures-contact dd {
+                margin: 0;
+            }
+            .ventures-contact dd span {
+                display: block;
             }
             .ventures-contact a {
                 color: #131E29;
@@ -134,11 +171,44 @@
                 border-color: #B784A7;
             }
 
+            /* mobile: one venture at a time, switched by tabs */
             @media (max-width: 900px) {
-                .ventures-grid { grid-template-columns: 1fr; row-gap: 48px; }
                 .ventures-page { padding: 0 24px; }
-                .studio-intro { margin: 40px 0 48px; }
+                .studio-intro { margin: 40px 0 40px; }
                 .studio-intro h1 { font-size: 32px; }
+                .ventures-grid { grid-template-columns: 1fr; }
+
+                .js .venture-tabs {
+                    display: flex;
+                    margin-bottom: 28px;
+                    border-bottom: 1px solid #131E29;
+                }
+                .venture-tabs button {
+                    flex: 1;
+                    min-height: 48px;
+                    padding: 8px 4px;
+                    background: none;
+                    border: none;
+                    border-bottom: 3px solid transparent;
+                    font: inherit;
+                    font-size: 15px;
+                    color: #5A6570;
+                    cursor: pointer;
+                }
+                .venture-tabs button[aria-pressed="true"] {
+                    color: #131E29;
+                    font-weight: 400;
+                    border-bottom-color: #B784A7;
+                }
+                .js .venture:not(.is-active) {
+                    display: none;
+                }
+                .js .venture {
+                    border-top: none;
+                    padding-top: 0;
+                }
+                .ventures-contact { margin: 64px 0 32px; }
+                .ventures-contact dl { column-gap: 24px; }
             }
         </style>
     </head>
@@ -164,16 +234,19 @@
             <!-- studio description: edit this wording freely -->
             <section class="studio-intro">
                 <h1>ventures</h1>
-                <p>
-                    Based in Melbourne, my practice spans transformable textiles, desserts and fragrance.
-                    Each venture follows the same approach: curiosity, minimal waste and real-life observation,
-                    carried through material experiments into things people can use, taste and smell.
-                </p>
+                <p>Based in Melbourne, my practice spans transformable textiles, desserts and fragrance. Each venture follows the same approach: curiosity, minimal waste and real-life observation, carried through material experiments into things people can use, taste and smell.</p>
             </section>
+
+            <!-- tabs show on mobile only (see styles above) -->
+            <div class="venture-tabs" role="group" aria-label="Choose a venture">
+                <button type="button" aria-pressed="true">unstitch x</button>
+                <button type="button" aria-pressed="false">mokake</button>
+                <button type="button" aria-pressed="false">ajer haus</button>
+            </div>
 
             <!-- images: save files as img/ventures/<name>.jpg (3:2 crop works best) -->
             <section class="ventures-grid">
-                <article class="venture">
+                <article class="venture is-active">
                     <img class="venture-image" src="img/ventures/unstitch-x.jpg" alt="unstitch x">
                     <h2>unstitch x</h2>
                     <p class="zh">模块化纺织品</p>
@@ -202,11 +275,19 @@
 
             <section class="ventures-contact">
                 <h3>get in touch</h3>
-                | email <a href="mailto:yijing.adesign@gmail.com">yijing.adesign@gmail.com</a>
-                <br>
-                | phone <a href="tel:+61478169261">+61 478169261</a>
-                <br>
-                | linkedin <a href="https://www.linkedin.com/in/yijingang/">yijingang</a>
+                <dl>
+                    <dt>email</dt>
+                    <dd><a href="mailto:hello@yijingang.com">hello@yijingang.com</a></dd>
+                    <dt>phone</dt>
+                    <dd>
+                        <span><a href="tel:+61478169261">+61 478 169 261</a> (AU)</span>
+                        <span><a href="tel:+60162514074">+60 16 251 4074</a> (MY)</span>
+                    </dd>
+                    <dt>wechat</dt>
+                    <dd>yijing_a</dd>
+                    <dt>linkedin</dt>
+                    <dd><a href="https://www.linkedin.com/in/yijingang/">yijingang</a></dd>
+                </dl>
             </section>
         </main>
 
@@ -215,5 +296,24 @@
         </footer>
 
         <script src="script.js"></script>
+        <script>
+            // mobile tabs: show one venture at a time
+            (function () {
+                var tabs = document.querySelectorAll('.venture-tabs button');
+                var ventures = document.querySelectorAll('.venture');
+                function show(index) {
+                    tabs.forEach(function (tab, i) {
+                        tab.setAttribute('aria-pressed', i === index ? 'true' : 'false');
+                    });
+                    ventures.forEach(function (venture, i) {
+                        venture.classList.toggle('is-active', i === index);
+                    });
+                }
+                tabs.forEach(function (tab, i) {
+                    tab.addEventListener('click', function () { show(i); });
+                });
+                show(0);
+            })();
+        </script>
     </body>
 </html>
