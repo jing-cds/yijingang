@@ -53,6 +53,17 @@
                 align-self: flex-start;
                 margin-left: 5%;
             }
+            .ventures-intro p + p { margin-top: 12px; }
+            .ventures-label {
+                box-sizing: border-box;
+                width: 90%;
+                align-self: flex-start;
+                margin: 28px 0 0 5%;
+                font-weight: normal;
+                font-size: 18px;
+                text-align: left;
+            }
+            @media (max-width: 768px) { .ventures-label { align-self: center; margin: 24px 0 0; } }
             .ventures-intro h2 {
                 margin-bottom: 14px;
             }
@@ -234,8 +245,12 @@
 
         <section class="ventures-intro">
             <h2>ventures</h2>
-            <p>Based in Melbourne, my practice spans transformable textiles, desserts and fragrance. Each venture follows the same approach: curiosity, minimal waste and real-life observation, carried through material experiments into things people can use, taste and smell.</p>
+            <p>Based in Melbourne, Australia and Kuala Lumpur, Malaysia.</p>
+            <p>My background is in industrial design and engineering. Currently, I work in product development and sourcing. Below are brands under my company, we hope to collaborate with partners with related technical and manufacturing capabilities.</p>
+            <p>Thank you. Please get in touch and we look forward to working with you.</p>
         </section>
+
+        <h3 class="ventures-label">our brands</h3>
 
         <!-- tabs: mobile only, same look as the filters on the works page -->
         <section class="filters venture-tabs">
@@ -247,7 +262,7 @@
         <!-- images: save as img/ventures/<name>.jpg, 3:2 crop works best -->
         <section class="worksGrid">
             <div class="project venture is-active">
-                <img class="works-image" src="img/ventures/unstitch-x.gif" alt="unstitch x interlocking textile tiles, animated">
+                <img class="works-image" src="img/ventures/unstitch-x.gif" alt="unstitch x modular textile bag, animated">
                 <div class="works-details">
                     <p class="title">unstitch x</p>
                     <p class="description">modular textile · 模块化纺织品</p>
@@ -259,11 +274,11 @@
             <div class="project venture">
                 <div class="slideshow" aria-roledescription="carousel">
                     <div class="slides">
-                        <img class="works-image is-on" src="img/ventures/mokake-1-box.jpg" alt="mokake: black packaging box">
-                        <img class="works-image" src="img/ventures/mokake-2-open.jpg" alt="mokake: open box with the sliced cake">
-                        <img class="works-image" src="img/ventures/mokake-3-slice.jpg" alt="mokake: hojicha and red bean ukishima cake in cross-section">
-                        <img class="works-image" src="img/ventures/mokake-4-cake.jpg" alt="mokake: a decorated competition cake">
-                        <img class="works-image" src="img/ventures/mokake-5-easter.jpg" alt="mokake: an easter basket cake">
+                        <img loading="lazy" decoding="async" class="works-image is-on" src="img/ventures/mokake-1-box.jpg" alt="mokake: black packaging box">
+                        <img loading="lazy" decoding="async" class="works-image" src="img/ventures/mokake-2-open.jpg" alt="mokake: open box with the sliced cake">
+                        <img loading="lazy" decoding="async" class="works-image" src="img/ventures/mokake-3-slice.jpg" alt="mokake: hojicha and red bean ukishima cake in cross-section">
+                        <img loading="lazy" decoding="async" class="works-image" src="img/ventures/mokake-4-cake.jpg" alt="mokake: a decorated competition cake">
+                        <img loading="lazy" decoding="async" class="works-image" src="img/ventures/mokake-5-easter.jpg" alt="mokake: an easter basket cake">
                     </div>
                     <div class="dots"><button type="button" class="arrow prev" aria-label="previous">&#8249;</button><button type="button" class="dot is-on" aria-label="slide 1"></button><button type="button" class="dot" aria-label="slide 2"></button><button type="button" class="dot" aria-label="slide 3"></button><button type="button" class="dot" aria-label="slide 4"></button><button type="button" class="dot" aria-label="slide 5"></button><button type="button" class="arrow next" aria-label="next">&#8250;</button></div>
                 </div>
@@ -276,7 +291,7 @@
             </div>
 
             <div class="project venture">
-                <img class="works-image" src="img/ventures/ajer-haus.jpg" alt="seven ajer haus candle scents side by side">
+                <img loading="lazy" decoding="async" class="works-image" src="img/ventures/ajer-haus.jpg" alt="seven ajer haus candle scents side by side">
                 <div class="works-details">
                     <p class="title">ajer haus</p>
                     <p class="description">fragrance · 香氛产品</p>
@@ -289,6 +304,8 @@
         <section class="ventures-contact">
             <h3>get in touch</h3>
             <dl>
+                <dt>name</dt>
+                <dd>Yi Jing Ang (Astra), 洪乙菁</dd>
                 <dt>email</dt>
                 <dd><a href="mailto:hello@yijingang.com">hello@yijingang.com</a></dd>
                 <dt>phone</dt>
