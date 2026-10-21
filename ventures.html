@@ -81,6 +81,43 @@
                 opacity: 60%;
                 margin-top: 6px;
             }
+            /* mokake slideshow: swipe on mobile, dots to jump */
+            .slideshow .slides {
+                display: flex;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                scrollbar-width: none;
+            }
+            .slideshow .slides::-webkit-scrollbar { display: none; }
+            .slideshow .slides img {
+                flex: 0 0 100%;
+                scroll-snap-align: center;
+                cursor: default;
+            }
+            .slideshow .dots {
+                display: flex;
+                justify-content: center;
+                gap: 4px;
+                margin-top: 4px;
+            }
+            .slideshow .dot {
+                width: 24px;
+                height: 24px;
+                background: none;
+                border: none;
+                cursor: pointer;
+                position: relative;
+            }
+            .slideshow .dot::after {
+                content: "";
+                position: absolute;
+                inset: 9px;
+                border-radius: 50%;
+                background: #131E29;
+                opacity: 30%;
+                transition: opacity 0.3s;
+            }
+            .slideshow .dot.is-on::after { opacity: 100%; }
             .venture .visit {
                 display: inline-block;
                 margin-top: 6px;
@@ -188,17 +225,25 @@
                 <div class="works-details">
                     <p class="title">unstitch x</p>
                     <p class="description">modular textile · 模块化纺织品</p>
-                    <p class="looking">looking for: textile offcuts, deadstock fabric</p>
+                    <p class="looking">looking for: textile offcuts, surplus or deadstock fabric</p>
                     <a class="visit" href="https://unstitchx.com">unstitchx.com &rarr;</a>
                 </div>
             </div>
 
             <div class="project venture">
-                <img class="works-image" src="img/ventures/mokake.jpg" alt="cross-section of layered hojicha and red bean ukishima cake">
+                <div class="slideshow" aria-roledescription="carousel">
+                    <div class="slides">
+                        <img class="works-image is-on" src="img/ventures/mokake-1-box.jpg" alt="mokake: black packaging box">
+                        <img class="works-image" src="img/ventures/mokake-2-open.jpg" alt="mokake: open box with the sliced cake">
+                        <img class="works-image" src="img/ventures/mokake-3-slice.jpg" alt="mokake: hojicha and red bean ukishima cake in cross-section">
+                        <img class="works-image" src="img/ventures/mokake-4-cake.jpg" alt="mokake: a decorated competition cake">
+                    </div>
+                    <div class="dots"><button type="button" class="dot is-on" aria-label="slide 1"></button><button type="button" class="dot" aria-label="slide 2"></button><button type="button" class="dot" aria-label="slide 3"></button><button type="button" class="dot" aria-label="slide 4"></button></div>
+                </div>
                 <div class="works-details">
                     <p class="title">mokake</p>
                     <p class="description">dessert · 特色甜点</p>
-                    <p class="looking">looking for: hojicha and red bean suppliers</p>
+                    <p class="looking">looking for: steaming equipment, precision moulds, premium gift packaging</p>
                     <!-- when ready: <a class="visit" href="URL">link text &rarr;</a> -->
                     <span class="soon">link coming soon</span>
                 </div>
@@ -209,7 +254,7 @@
                 <div class="works-details">
                     <p class="title">ajer haus</p>
                     <p class="description">fragrance · 香氛产品</p>
-                    <p class="looking">looking for: tin vessels, soy-coconut wax suppliers</p>
+                    <p class="looking">looking for: tin vessel manufacturer, scent packaging label</p>
                     <!-- when ready: <a class="visit" href="URL">link text &rarr;</a> -->
                     <span class="soon">link coming soon</span>
                 </div>
@@ -239,6 +284,20 @@
 
         <script src="script.js"></script>
         <script>
+            // mokake slideshow: dots follow the swipe and jump on click
+            document.querySelectorAll('.slideshow').forEach(function (show) {
+                var track = show.querySelector('.slides');
+                var dots = show.querySelectorAll('.dot');
+                dots.forEach(function (dot, i) {
+                    dot.addEventListener('click', function () {
+                        track.scrollTo({ left: track.clientWidth * i, behavior: 'smooth' });
+                    });
+                });
+                track.addEventListener('scroll', function () {
+                    var i = Math.round(track.scrollLeft / track.clientWidth);
+                    dots.forEach(function (d, j) { d.classList.toggle('is-on', i === j); });
+                });
+            });
             // mobile tabs: show one venture at a time
             (function () {
                 var tabs = document.querySelectorAll('.venture-tabs .filter-button');
