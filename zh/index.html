@@ -54,6 +54,17 @@
                 align-self: flex-start;
                 margin-left: 5%;
             }
+            .ventures-intro p + p { margin-top: 12px; }
+            .ventures-label {
+                box-sizing: border-box;
+                width: 90%;
+                align-self: flex-start;
+                margin: 28px 0 0 5%;
+                font-weight: normal;
+                font-size: 18px;
+                text-align: left;
+            }
+            @media (max-width: 768px) { .ventures-label { align-self: center; margin: 24px 0 0; } }
             .ventures-intro h2 {
                 margin-bottom: 14px;
             }
@@ -240,8 +251,12 @@
              Keep each paragraph on a single line: a line break inside Chinese text shows up as a gap. -->
         <section class="ventures-intro">
             <h2>品牌</h2>
-            <p>我常驻墨尔本，做模块化纺织品、特色甜点和香氛产品。三个品牌有同一种做法：保持好奇，尽量减少浪费，从真实生活的观察出发，经过反复的材料实验，做成人们可以使用、品尝和闻到的东西。</p>
+            <p>常驻墨尔本与马来西亚。</p>
+            <p>我有工业设计和工程背景，目前主要从事产品设计、开发和采购。以下是我们公司的旗下品牌，希望认识有相关技术和生产能力的合作伙伴。</p>
+            <p>谢谢。合作愉快。</p>
         </section>
+
+        <h3 class="ventures-label">品牌介绍</h3>
 
         <!-- tabs: mobile only, same look as the filters on the works page -->
         <section class="filters venture-tabs">
@@ -252,7 +267,7 @@
 
         <section class="worksGrid">
             <div class="project venture is-active">
-                <img class="works-image" src="../img/ventures/unstitch-x.gif" alt="unstitch x 互锁模块织片的动图">
+                <img class="works-image" src="../img/ventures/unstitch-x.gif" alt="unstitch x 模块化纺织包的动图">
                 <div class="works-details">
                     <p class="title">unstitch x</p>
                     <p class="description">模块化纺织品 · modular textile</p>
@@ -264,11 +279,11 @@
             <div class="project venture">
                 <div class="slideshow" aria-roledescription="carousel">
                     <div class="slides">
-                        <img class="works-image is-on" src="../img/ventures/mokake-1-box.jpg" alt="mokake: 黑色包装盒">
-                        <img class="works-image" src="../img/ventures/mokake-2-open.jpg" alt="mokake: 打开的盒子与切好的蛋糕">
-                        <img class="works-image" src="../img/ventures/mokake-3-slice.jpg" alt="mokake: 焙茶红豆双层蛋糕切面">
-                        <img class="works-image" src="../img/ventures/mokake-4-cake.jpg" alt="mokake: 参赛装饰蛋糕">
-                        <img class="works-image" src="../img/ventures/mokake-5-easter.jpg" alt="mokake: 复活节篮子造型蛋糕">
+                        <img loading="lazy" decoding="async" class="works-image is-on" src="../img/ventures/mokake-1-box.jpg" alt="mokake: 黑色包装盒">
+                        <img loading="lazy" decoding="async" class="works-image" src="../img/ventures/mokake-2-open.jpg" alt="mokake: 打开的盒子与切好的蛋糕">
+                        <img loading="lazy" decoding="async" class="works-image" src="../img/ventures/mokake-3-slice.jpg" alt="mokake: 焙茶红豆双层蛋糕切面">
+                        <img loading="lazy" decoding="async" class="works-image" src="../img/ventures/mokake-4-cake.jpg" alt="mokake: 参赛装饰蛋糕">
+                        <img loading="lazy" decoding="async" class="works-image" src="../img/ventures/mokake-5-easter.jpg" alt="mokake: 复活节篮子造型蛋糕">
                     </div>
                     <div class="dots"><button type="button" class="arrow prev" aria-label="上一张">&#8249;</button><button type="button" class="dot is-on" aria-label="幻灯片 1"></button><button type="button" class="dot" aria-label="幻灯片 2"></button><button type="button" class="dot" aria-label="幻灯片 3"></button><button type="button" class="dot" aria-label="幻灯片 4"></button><button type="button" class="dot" aria-label="幻灯片 5"></button><button type="button" class="arrow next" aria-label="下一张">&#8250;</button></div>
                 </div>
@@ -281,7 +296,7 @@
             </div>
 
             <div class="project venture">
-                <img class="works-image" src="../img/ventures/ajer-haus.jpg" alt="ajer haus 七款香氛蜡烛并排">
+                <img loading="lazy" decoding="async" class="works-image" src="../img/ventures/ajer-haus.jpg" alt="ajer haus 七款香氛蜡烛并排">
                 <div class="works-details">
                     <p class="title">ajer haus</p>
                     <p class="description">香氛产品 · fragrance</p>
@@ -294,6 +309,8 @@
         <section class="ventures-contact">
             <h3>联系我</h3>
             <dl>
+                <dt>姓名</dt>
+                <dd>洪乙菁，Yi Jing Ang (Astra)</dd>
                 <dt>微信</dt>
                 <dd>yijing_a</dd>
                 <dt>邮箱</dt>
